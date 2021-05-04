@@ -13,7 +13,6 @@
     <p>Sarah</p>
     <p>Sazia</p>
   </div>
-
   
   <table id="content">
     <legend>Displaying content here</legend>
@@ -23,17 +22,23 @@
 
   <form>
     <legend>Add a user</legend>
-    <input type="text" placeholder="firstname" id="fname"/>
-    <input type="text" placeholder="lastname" id="lname"/>
-    <input type="email" placeholder="email" id="email"/>
+    <input type="text" placeholder="First Name" id="fname"/>
+    <input type="text" placeholder="Last Name" id="lname"/>
+    <input type="email" placeholder="Email" id="email"/>
     <input type="text" placeholder="Group Name" id="groupName">
     <input type="tel" placeholder="Phone Number" id="tel">
     <input type="button" id="submit" value="Submit"/>  
   </form>
 
+  <fieldset>
+    <legend>Delete All Customers (use with caution!)</legend>
+    <input type="button" id="deleteAll" value="Delete All"/>
+  </fieldset>
+
   <p id="status"></p>
 
-  <script src="js/app.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="js/app.js"></script>
+  
 </body>
 </html>

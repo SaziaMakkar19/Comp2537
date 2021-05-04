@@ -1,8 +1,8 @@
-$(doucment).ready(function () {
 
-  console.log("dkfjosjf");
+$(document).ready(function() {
 
-  function getCustomers() {
+
+  function getUsers() {
     $.ajax({
       url: "/get-users",
       dataType: "json",
@@ -30,10 +30,11 @@ $(doucment).ready(function () {
             "</td><td>" + row.groupName +
             "</td><td class='tel'><span>" +
             row.tel + "</span></td></tr>");
+            // "<td><button id=" + row.ID + "\">close</button></td>"
         }
         //console.log(str);
         $("#content").html(str);
-
+  
       },
       error: function (jqXHR, textStatus, errorThrown) {
         $("#errorLog").text(jqXHR.statusText);
@@ -41,26 +42,26 @@ $(doucment).ready(function () {
       }
     });
   }
-  getCustomers();
-
-
-
+  getUsers();
+  
   $('#submit').click(function (e) {
     e.preventDefault();
-
+  
     let formData = {
       fname: $("#fname").val(),
       lname: $("#lname").val(),
       email: $("#email").val(),
-      lname: $("#groupName").val(),
-      email: $("#tel").val()
+      groupName: $("#groupName").val(),
+      tel: $("#tel").val()
     };
+    
+
     $("#fname").val("");
     $("#lname").val("");
     $("#email").val("");
     $("#groupName").val("");
     $("#tel").val("");
-
+  
     $.ajax({
       url: "/add-users",
       dataType: "json",
@@ -69,15 +70,37 @@ $(doucment).ready(function () {
       success: function (data) {
         //console.log(data);
         $("#status").html("DB updated.");
-        getCustomers();
+        getUsers();
       },
       error: function (jqXHR, textStatus, errorThrown) {
         $("#errorLog").text(jqXHR.statusText);
         console.log("ERROR:", jqXHR, textStatus, errorThrown);
       }
-
     });
   });
+
+  
+  $('#deleteAll').click(function(e) {
+    e.preventDefault();
+
+    $.ajax({
+        url: "/delete-all-users",
+        dataType: "json",
+        type: "POST",
+        success: function(data) {
+            console.log(data);
+            $("#status").html("All records deleted.");
+            getUsers();
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            $("#errorLog").text(jqXHR.statusText);
+            console.log("ERROR:", jqXHR, textStatus, errorThrown);
+        }
+
+    });
+});
+
+
 
 
 

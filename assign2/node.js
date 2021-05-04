@@ -75,7 +75,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Notice that this is a 'POST'
-app.post('/add-user', function (req, res) {
+app.post('/add-users', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
   console.log("firstname", req.body.fname);
@@ -91,6 +91,8 @@ app.post('/add-user', function (req, res) {
     database: 'test'
   });
   connection.connect();
+  // Adding delete button
+
   // TO PREVENT SQL INJECTION, DO THIS:
   // (FROM https://www.npmjs.com/package/mysql#escaping-query-values)
   connection.query('INSERT INTO User (fname, lname, email, groupName, tel) values (?, ?, ?, ?, ?)',
@@ -101,6 +103,30 @@ app.post('/add-user', function (req, res) {
     }
     //console.log('Rows returned are: ', results);
     res.send({ status: "success", msg: "Recorded added." });
+
+  });
+  connection.end();
+
+});
+
+app.post('/delete-all-users', function (req, res) {
+  res.setHeader('Content-Type', 'application/json');
+
+  let connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'test'
+  });
+  connection.connect();
+  // REALLY A DUMB THING TO DO, BUT JUST SHOWING YOU CAN
+  connection.query('DELETE FROM User',
+        function (error, results, fields) {
+    if (error) {
+        throw error;
+    }
+    //console.log('Rows returned are: ', results);
+    res.send({ status: "success", msg: "Recorded all deleted." });
 
   });
   connection.end();

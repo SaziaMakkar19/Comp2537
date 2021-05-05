@@ -1,5 +1,4 @@
-
-$(document).ready(function() {
+$(document).ready(function () {
 
 
   function getUsers() {
@@ -20,21 +19,17 @@ $(document).ready(function() {
         for (let i = 0; i < data.rows.length; i++) {
           let row = data.rows[i];
           //console.log("row", row);
-          str += ("<tr><td class='fname'>" + row.ID +
-            "</td><td>" + row.fname +
-            "</td><td class='lname'><span>" +
-            "</td><td>" + row.lname +
-            "</td><td class='email'><span>" +
-            "</td><td>" + row.email +
-            "</td><td class='groupName'><span>" +
-            "</td><td>" + row.groupName +
-            "</td><td class='tel'><span>" +
-            row.tel + "</span></td></tr>");
-            // "<td><button id=" + row.ID + "\">close</button></td>"
+          str += ("<tr><td class='id'>" + row.ID +
+            "</td><td class='fname'><span>" + row.fname +
+            "</span></td><td class='lname'><span>" + row.lname +
+            "</span></td><td class='email'><span>" + row.email +
+            "</span></td><td class='groupName'><span>" + row.groupName +
+            "</span></td><td class='email'><span>" + row.tel +
+            "</span></td><td><button class='deleteRow'>close</button></td></tr>");
         }
         //console.log(str);
-        $("#content").html(str);
-  
+        $("#users").html(str);
+
       },
       error: function (jqXHR, textStatus, errorThrown) {
         $("#errorLog").text(jqXHR.statusText);
@@ -43,10 +38,10 @@ $(document).ready(function() {
     });
   }
   getUsers();
-  
+
   $('#submit').click(function (e) {
     e.preventDefault();
-  
+
     let formData = {
       fname: $("#fname").val(),
       lname: $("#lname").val(),
@@ -54,14 +49,14 @@ $(document).ready(function() {
       groupName: $("#groupName").val(),
       tel: $("#tel").val()
     };
-    
+
 
     $("#fname").val("");
     $("#lname").val("");
     $("#email").val("");
     $("#groupName").val("");
     $("#tel").val("");
-  
+
     $.ajax({
       url: "/add-users",
       dataType: "json",
@@ -79,17 +74,85 @@ $(document).ready(function() {
     });
   });
 
-  
-  $('#deleteAll').click(function(e) {
+
+  $('#deleteAll').click(function (e) {
     e.preventDefault();
 
     $.ajax({
-        url: "/delete-all-users",
+      url: "/delete-all-users",
+      dataType: "json",
+      type: "POST",
+      success: function (data) {
+        console.log(data);
+        $("#status").html("All records deleted.");
+        getUsers();
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        $("#errorLog").text(jqXHR.statusText);
+        console.log("ERROR:", jqXHR, textStatus, errorThrown);
+      }
+
+    });
+  });
+
+  $('#users').on('click', 'span', function () {
+
+    let dataClass = $(this).parent().attr('class');
+
+    let spanText = $(this).text();
+    let td = $(this).parent();
+    let input = $("<input type='text' value='" + spanText + "'>");
+    td.html(input);
+    
+    $(input).keyup(function(e) {
+      let val = null;
+      let span = null;
+      if (e.which == 13) {
+        val = $(input).val();
+        span = $("<span>" + val + "</span>");
+        td.html(span);
+        // console.log(td.parent().find("[class='id']")[0]);
+        
+        let dataToSend = {
+          id: td.parent().find("[class='id']").html()
+        };
+        dataToSend[dataClass] = val;
+
+        $.ajax({
+          url: "/update-user",
+          dataType: "json",
+          type: "POST",
+          data: dataToSend,
+          success: function(data) {
+              //console.log(data);
+              $("#status").html("DB updated.");
+              getUsers();
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+              $("#errorLog").text(jqXHR.statusText);
+              console.log("ERROR:", jqXHR, textStatus, errorThrown);
+          }
+
+      });
+      }
+    })
+
+  });
+
+  $('#users').on('click', 'button', function () {
+      console.log("Deleting the row.");
+      let td = $(this).parent();
+      let dataToSend = {
+        id: td.parent().find("[class='id']").html()
+      };
+
+      $.ajax({
+        url: "/delete-user",
         dataType: "json",
         type: "POST",
+        data: dataToSend,
         success: function(data) {
-            console.log(data);
-            $("#status").html("All records deleted.");
+            $("#status").html("DB updated.");
             getUsers();
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -98,10 +161,6 @@ $(document).ready(function() {
         }
 
     });
-});
-
-
-
-
+  });
 
 });

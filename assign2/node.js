@@ -36,7 +36,6 @@ app.get('/', function (req, res) {
     if (error) {
       throw error;
     }
-    // console.log(results);
   });
   connection.end();
 
@@ -58,7 +57,6 @@ app.get('/get-users', function (req, res) {
     if (error) {
       throw error;
     }
-    // console.log('Rows returned are: ', results);
     res.send({
       status: "success",
       rows: results
@@ -80,12 +78,6 @@ app.use(bodyParser.json());
 app.post('/add-users', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
-  // console.log("firstname", req.body.fname);
-  // console.log("lastname", req.body.lname);
-  // console.log("email", req.body.email);
-  // console.log("group name", req.body.groupName);
-  // console.log("tel", req.body.tel);
-
   let connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -93,7 +85,6 @@ app.post('/add-users', function (req, res) {
     database: 'test'
   });
   connection.connect();
-  // Adding delete button
 
   // TO PREVENT SQL INJECTION, DO THIS:
   // (FROM https://www.npmjs.com/package/mysql#escaping-query-values)
@@ -112,7 +103,6 @@ app.post('/add-users', function (req, res) {
 
     });
   connection.end();
-
 });
 
 app.post('/delete-all-users', function (req, res) {
@@ -125,13 +115,11 @@ app.post('/delete-all-users', function (req, res) {
     database: 'test'
   });
   connection.connect();
-  // REALLY A DUMB THING TO DO, BUT JUST SHOWING YOU CAN
   connection.query('DELETE FROM User',
     function (error, results, fields) {
       if (error) {
         throw error;
       }
-      //console.log('Rows returned are: ', results);
       res.send({
         status: "success",
         msg: "Recorded all deleted."
@@ -158,20 +146,23 @@ app.post('/update-user', function (req, res) {
   }
 
   connection.query('UPDATE User SET ' + updating_key + ' = ? WHERE ID = ?',
-        [updating_value, req.body.id],
-        function (error, results, fields) {
-    if (error) {
+    [updating_value, req.body.id],
+    function (error, results, fields) {
+      if (error) {
         throw error;
-    }
-    console.log('Rows returned are: ', results);
-    res.send({ status: "success", msg: "Recorded updated." });
+      }
+      console.log('Rows returned are: ', results);
+      res.send({
+        status: "success",
+        msg: "Recorded updated."
+      });
 
-  });
+    });
   connection.end();
 
 });
 
-app.post('/delete-user', function(req, res) {
+app.post('/delete-user', function (req, res) {
 
   res.setHeader('Content-Type', 'application/json');
 
@@ -183,24 +174,24 @@ app.post('/delete-user', function(req, res) {
   });
 
   connection.query('DELETE FROM User WHERE ID = ?',
-        [req.body.id],
-        function (error, results, fields) {
-    if (error) {
+    [req.body.id],
+    function (error, results, fields) {
+      if (error) {
         throw error;
-    }
-    console.log('Rows returned are: ', results);
-    res.send({ status: "success", msg: "Recorded updated." });
+      }
+      console.log('Rows returned are: ', results);
+      res.send({
+        status: "success",
+        msg: "Recorded updated."
+      });
 
-  });
-
-
-
+    });
   connection.end();
 });
 
 
 
-let port = 5000;
+let port = 8000;
 app.listen(port, function () {
   console.log('CRUD app listening on port ' + port + '!');
 })

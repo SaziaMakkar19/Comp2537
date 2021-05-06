@@ -64,7 +64,7 @@ $(document).ready(function () {
       data: formData,
       success: function (data) {
         //console.log(data);
-        $("#status").html("DB updated.");
+        alert("Database Updated");
         getUsers();
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -75,25 +75,25 @@ $(document).ready(function () {
   });
 
 
-  $('#deleteAll').click(function (e) {
-    e.preventDefault();
+  // $('#deleteAll').click(function (e) {
+  //   e.preventDefault();
 
-    $.ajax({
-      url: "/delete-all-users",
-      dataType: "json",
-      type: "POST",
-      success: function (data) {
-        console.log(data);
-        $("#status").html("All records deleted.");
-        getUsers();
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        $("#errorLog").text(jqXHR.statusText);
-        console.log("ERROR:", jqXHR, textStatus, errorThrown);
-      }
+  //   $.ajax({
+  //     url: "/delete-all-users",
+  //     dataType: "json",
+  //     type: "POST",
+  //     success: function (data) {
+  //       console.log(data);
+  //       $("#status").html("All records deleted.");
+  //       getUsers();
+  //     },
+  //     error: function (jqXHR, textStatus, errorThrown) {
+  //       $("#errorLog").text(jqXHR.statusText);
+  //       console.log("ERROR:", jqXHR, textStatus, errorThrown);
+  //     }
 
-    });
-  });
+  //   });
+  // });
 
   $('#users').on('click', 'span', function () {
 
@@ -140,6 +140,8 @@ $(document).ready(function () {
   });
 
   $('#users').on('click', 'button', function () {
+    var answer = confirm("Are you sure you want to delete this user?");
+    if(answer == true){
       console.log("Deleting the row.");
       let td = $(this).parent();
       let dataToSend = {
@@ -161,6 +163,8 @@ $(document).ready(function () {
         }
 
     });
+    }
+      
   });
 
 });

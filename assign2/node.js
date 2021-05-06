@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 app.use('/css', express.static('private/css'));
 app.use('/js', express.static('private/js'));
 app.use('/html', express.static('private/html'));
+app.use('/image', express.static('private/image'));
 
 
 app.get('/', function (req, res) {
@@ -199,7 +200,7 @@ app.post('/delete-user', function(req, res) {
 
 
 
-let port = 8080;
+let port = 5000;
 app.listen(port, function () {
   console.log('CRUD app listening on port ' + port + '!');
 })

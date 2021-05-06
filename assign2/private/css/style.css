@@ -1,0 +1,64 @@
+#image{
+    filter:opacity(80%);
+}
+
+#heading {
+        position: absolute;
+        top: 8px;
+        left: 16px;
+        color: #1f4060;
+        
+}
+
+form {
+    font-size: 20px;
+    color: #1f4060;
+}
+
+.card {
+    float: left;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+#display {
+    float: left;
+    margin-left: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+table {
+    border-collapse: collapse;
+    font-size: 18px;
+}
+
+#users td , #users th {
+    padding: 10px;
+    padding-right: 15px;
+    color: #1f4060;
+}
+
+
+#users tr:nth-child(even){background-color: #f2f2f2;}
+
+#users tr:hover {background-color: #ddd;}
+
+.name {
+    font-size: 20px;
+}
+
+#header {
+    text-align: center;
+}
+
+#topic {
+    color: #1f4060;
+}
+
+.name {
+    color: #1f4060;
+}
+
+legend {
+    color: #1f4060;
+    font-weight: bold;
+}

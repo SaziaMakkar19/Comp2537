@@ -2,6 +2,9 @@
     filter:opacity(80%);
 }
 
+#navbar {
+    background-color: #ddd;
+}
 #heading {
         position: absolute;
         top: 8px;
@@ -16,17 +19,17 @@ form {
 }
 
 .card {
-    float: left;
+    margin: auto;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 
 #display {
-    float: left;
-    margin-left: 10px;
+    
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 
 table {
+    width: 100%;
     border-collapse: collapse;
     font-size: 18px;
 }
@@ -52,6 +55,7 @@ table {
 
 #topic {
     color: #1f4060;
+    font-size: 25px;
 }
 
 .name {
